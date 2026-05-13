@@ -28,10 +28,30 @@ header {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
+/* Existing shot-row update */
 .shot-row {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
+    align-items: center;
+    margin-bottom: 12px; /* Adds space between each shot row */
+}
+
+/* New styling for the Add Shot button */
+.add-shot-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px; /* Creates the specific room you requested */
+    background-color: #f8f9fa;
+    border: 1px dashed #adb5bd;
+    border-radius: 6px;
+    color: #495057;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.add-shot-btn:active {
+    background-color: #e9ecef;
 }
 
 select, input {

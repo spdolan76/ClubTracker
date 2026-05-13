@@ -11,7 +11,8 @@ function initHoles() {
             <div id="shots-h${i}">
                 ${renderShotRow(i, 1)}
             </div>
-            <button onclick="addShot(${i})">+ Add Shot</button>
+            <!-- Added the class here for styling -->
+            <button class="add-shot-btn" onclick="addShot(${i})">+ Add Shot</button>
         `;
         container.appendChild(holeDiv);
         loadData(i);

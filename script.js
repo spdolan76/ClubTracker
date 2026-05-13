@@ -64,3 +64,28 @@ document.getElementById('reset-btn').addEventListener('click', () => {
 });
 
 initHoles();
+
+document.getElementById('export-btn').addEventListener('click', () => {
+    let csvContent = "data:text/csv;charset=utf-8,Hole,Shot 1,Shot 2,Shot 3,Shot 4,Shot 5\n";
+
+    for (let i = 1; i <= 18; i++) {
+        const saved = localStorage.getItem(`hiawatha-h${i}`);
+        if (saved) {
+            const shots = JSON.parse(saved);
+            // Formats row: Hole #, Club1, Club2...
+            csvContent += `${i},${shots.join(",")}\n`;
+        } else {
+            csvContent += `${i}\n`; // Empty hole
+        }
+    }
+
+    // Create a hidden link and trigger the download
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `hiawatha_round_${new Date().toLocaleDateString()}.csv`);
+    document.body.appendChild(link);
+
+    link.click();
+    document.body.removeChild(link);
+});

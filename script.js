@@ -1,7 +1,5 @@
 const clubs = ["D", "3W", "4H", "4I", "5I", "6I", "7I", "8I", "9I", "PW", "52", "56", "60", "Putter"];
-const container = document.getElementById('course-container');
 
-// Initialize 18 holes
 const hiawathaData = {
     par: [4, 4, 3, 4, 4, 3, 5, 4, 5, 4, 4, 5, 3, 4, 4, 4, 3, 5],
     yards: {
@@ -12,10 +10,17 @@ const hiawathaData = {
     }
 };
 
+const container = document.getElementById('course-container');
 const teeSelector = document.getElementById('tee-selector');
 
+// 1. Initialize App
 function initHoles() {
-    container.innerHTML = ''; // Clear for re-rendering
+    // Persistent Tee Choice
+    if (localStorage.getItem('selectedTee')) {
+        teeSelector.value = localStorage.getItem('selectedTee');
+    }
+
+    container.innerHTML = ''; 
     const selectedTee = teeSelector.value;
 
     for (let i = 1; i <= 18; i++) {
@@ -39,28 +44,28 @@ function initHoles() {
     }
 }
 
-// Re-render when tee changes
-teeSelector.addEventListener('change', initHoles);
-
+// 2. Render Single Shot Dropdown
 function renderShotRow(hole, shotNum) {
     let options = clubs.map(c => `<option value="${c}">${c}</option>`).join('');
     return `
-        <div class="shot-row" id="h${hole}-s${shotNum}">
-            <label>S${shotNum}</label>
+        <div class="shot-row">
+            <label>${shotNum}</label>
             <select onchange="saveData(${hole})" data-hole="${hole}">
-                <option value="">Select Club</option>
+                <option value="">--</option>
                 ${options}
             </select>
         </div>
     `;
 }
 
+// 3. Add Shot Logic
 function addShot(holeNum) {
     const shotContainer = document.getElementById(`shots-h${holeNum}`);
     const nextShot = shotContainer.children.length + 1;
     shotContainer.insertAdjacentHTML('beforeend', renderShotRow(holeNum, nextShot));
 }
 
+// 4. Persistence Logic
 function saveData(holeNum) {
     const selects = document.querySelectorAll(`select[data-hole="${holeNum}"]`);
     const holeClubs = Array.from(selects).map(s => s.value);
@@ -71,45 +76,53 @@ function loadData(holeNum) {
     const saved = localStorage.getItem(`hiawatha-h${holeNum}`);
     if (saved) {
         const data = JSON.parse(saved);
-        const shotContainer = document.getElementById(`shots-h${holeNum}`);
-        shotContainer.innerHTML = ''; // Clear defaults
-        data.forEach((club, index) => {
-            shotContainer.insertAdjacentHTML('beforeend', renderShotRow(holeNum, index + 1));
-            shotContainer.querySelectorAll('select')[index].value = club;
-        });
+        if (data.length > 0) {
+            const shotContainer = document.getElementById(`shots-h${holeNum}`);
+            shotContainer.innerHTML = ''; 
+            data.forEach((club, index) => {
+                shotContainer.insertAdjacentHTML('beforeend', renderShotRow(holeNum, index + 1));
+                shotContainer.querySelectorAll('select')[index].value = club;
+            });
+        }
     }
 }
 
+// 5. Tee Selection Event
+teeSelector.addEventListener('change', () => {
+    localStorage.setItem('selectedTee', teeSelector.value);
+    initHoles();
+});
+
+// 6. Reset Round
 document.getElementById('reset-btn').addEventListener('click', () => {
-    if(confirm("Clear all data for this round?")) {
+    if(confirm("Clear all shot data for this round?")) {
+        const tee = teeSelector.value;
         localStorage.clear();
+        localStorage.setItem('selectedTee', tee);
         location.reload();
     }
 });
 
-initHoles();
-
+// 7. Export CSV
 document.getElementById('export-btn').addEventListener('click', () => {
-    let csvContent = "data:text/csv;charset=utf-8,Hole,Shot 1,Shot 2,Shot 3,Shot 4,Shot 5\n";
+    const currentTee = teeSelector.value.toUpperCase();
+    let csvContent = `data:text/csv;charset=utf-8,Hiawatha Landing - ${currentTee} TEES\n`;
+    csvContent += "Hole,S1,S2,S3,S4,S5,S6\n";
 
     for (let i = 1; i <= 18; i++) {
         const saved = localStorage.getItem(`hiawatha-h${i}`);
-        if (saved) {
-            const shots = JSON.parse(saved);
-            // Formats row: Hole #, Club1, Club2...
-            csvContent += `${i},${shots.join(",")}\n`;
-        } else {
-            csvContent += `${i}\n`; // Empty hole
-        }
+        const shots = saved ? JSON.parse(saved) : [];
+        csvContent += `${i},${shots.join(",")}\n`;
     }
 
-    // Create a hidden link and trigger the download
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `hiawatha_round_${new Date().toLocaleDateString()}.csv`);
+    link.setAttribute("download", `Hiawatha_Round_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`);
     document.body.appendChild(link);
-
     link.click();
     document.body.removeChild(link);
 });
+
+// Start
+initHoles();

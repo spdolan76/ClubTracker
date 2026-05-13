@@ -68,3 +68,32 @@ button#reset-btn {
     padding: 8px 12px;
     border-radius: 4px;
 }
+#course-config {
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.hole-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+}
+
+.hole-info {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+}
+
+#tee-selector {
+    flex-grow: 1;
+    padding: 8px;
+    border-radius: 4px;
+}

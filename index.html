@@ -2,28 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Hiawatha Links Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Golf Club Usage Tracker</h1>
-        <button id="export-btn" style="background: #1976d2; color: white;">Export CSV</button>
-        <button id="reset-btn">Clear Round</button>
+        <h1>Hiawatha Tracker</h1>
+        <div class="header-actions">
+            <button id="export-btn" class="btn-blue">Export</button>
+            <button id="reset-btn" class="btn-red">Reset</button>
+        </div>
     </header>
 
+    <section id="course-config">
+        <label for="tee-selector">Tees:</label>
+        <select id="tee-selector">
+            <option value="gold">Gold (Championship)</option>
+            <option value="blue">Blue (Back)</option>
+            <option value="white" selected>White (Middle)</option>
+            <option value="green">Green (Forward)</option>
+        </select>
+    </section>
+
     <main id="course-container">
-        <section id="course-config">
-    <label for="tee-selector">Playing From:</label>
-    <select id="tee-selector">
-        <option value="blue">Blue (Back)</option>
-        <option value="white" selected>White (Middle)</option>
-        <option value="green">Green (Forward)</option>
-        <option value="gold">Gold (Championship)</option>
-    </select>
-</section>
-        <!-- Holes 1-18 will be injected here via JavaScript -->
+        <!-- Holes injected via JS -->
     </main>
 
     <script src="script.js"></script>

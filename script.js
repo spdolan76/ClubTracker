@@ -1,4 +1,4 @@
-const clubs = ["Driver", "3W", "4H", "4I", "5I", "6I", "7I", "8I", "9I", "PW", "GW", "SW", "LW", "Putter"];
+const clubs = ["D", "3W", "4H", "4I", "5I", "6I", "7I", "8I", "9I", "PW", "52", "56", "60", "Putter"];
 const container = document.getElementById('course-container');
 
 // Initialize 18 holes

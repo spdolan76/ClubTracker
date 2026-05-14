@@ -3,31 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>Hiawatha Links Tracker</title>
+    <title>NY Golf Club Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Hiawatha Tracker</h1>
+        <h1>Golf Tracker</h1>
         <div class="header-actions">
             <button id="export-btn" class="btn-blue">Export</button>
             <button id="reset-btn" class="btn-red">Reset</button>
         </div>
     </header>
 
-    <section id="course-config">
-        <label for="tee-selector">Tees:</label>
-        <select id="tee-selector">
-            <option value="gold">Gold (Championship)</option>
-            <option value="blue">Blue (Back)</option>
-            <option value="white" selected>White (Middle)</option>
-            <option value="green">Green (Forward)</option>
-        </select>
+    <section id="selectors">
+        <div class="select-group">
+            <label for="course-selector">Course</label>
+            <select id="course-selector">
+                <option value="hiawatha">Hiawatha Landing</option>
+                <option value="enjoie">En-Joie</option>
+                <option value="traditions">Traditions at the Glen</option>
+                <option value="tallpines">Tall Pines</option>
+                <option value="tioga">Tioga Golf Club</option>
+                <option value="elypark">Ely Park</option>
+            </select>
+        </div>
+        <div class="select-group">
+            <label for="tee-selector">Tees</label>
+            <select id="tee-selector"></select>
+        </div>
     </section>
 
-    <main id="course-container">
-        <!-- Holes injected via JS -->
-    </main>
+    <main id="course-container"></main>
 
     <script src="script.js"></script>
 </body>

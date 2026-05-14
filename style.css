@@ -24,40 +24,38 @@ header {
     margin-bottom: 10px;
 }
 
-h1 { font-size: 1.2rem; margin: 0; }
-
 .header-actions { display: flex; gap: 8px; }
 
 button {
     border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
+    padding: 10px 14px;
+    border-radius: 6px;
     font-weight: bold;
-    font-size: 14px;
     cursor: pointer;
 }
 
 .btn-blue { background: var(--action-blue); color: white; }
 .btn-red { background: var(--danger-red); color: white; }
 
-#course-config {
+#selectors {
     background: white;
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 12px;
     display: flex;
-    align-items: center;
-    gap: 10px;
+    flex-direction: column;
+    gap: 12px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-#tee-selector {
-    flex-grow: 1;
-    padding: 10px;
-    font-size: 16px; /* Prevents iOS zoom */
-    border-radius: 6px;
-    border: 1px solid #ccc;
+.select-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
+
+.select-group label { font-weight: bold; width: 60px; color: #555; }
+.select-group select { flex-grow: 1; padding: 10px; font-size: 16px; border-radius: 6px; border: 1px solid #ddd; }
 
 .hole-card {
     background: white;
@@ -70,47 +68,50 @@ button {
 .hole-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     border-bottom: 1px solid #eee;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
     padding-bottom: 5px;
 }
 
-.hole-header h3 { margin: 0; color: #333; }
-.hole-info { font-weight: bold; color: #666; font-size: 0.9rem; }
+.column-labels {
+    display: grid;
+    grid-template-columns: 0.6fr 2fr 1.5fr 1fr;
+    gap: 8px;
+    font-size: 0.65rem;
+    color: #999;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    text-align: center;
+}
 
 .shot-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: 0.6fr 2fr 1.5fr 1fr;
+    gap: 8px;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
-.shot-row label {
-    font-weight: bold;
-    min-width: 30px;
-    color: #888;
-}
+.shot-row label { font-weight: bold; color: #bbb; text-align: center; }
 
-select {
-    flex-grow: 1;
-    padding: 12px;
+select, input {
+    padding: 10px;
     font-size: 16px;
-    border-radius: 8px;
+    border-radius: 6px;
     border: 1px solid #ddd;
-    background-color: #fafafa;
+    text-align: center;
 }
+
+.dist-calc { font-weight: bold; color: var(--primary-green); text-align: center; }
 
 .add-shot-btn {
     display: block;
     width: 100%;
     padding: 12px;
-    margin-top: 15px;
-    background-color: #f8f9fa;
+    margin-top: 10px;
+    background: #f8f9fa;
     border: 2px dashed #ccd0d5;
     border-radius: 8px;
-    color: #555;
     font-size: 16px;
+    color: #666;
 }
-
-.add-shot-btn:active { background-color: #e9ecef; }

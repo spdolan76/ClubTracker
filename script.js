@@ -60,15 +60,23 @@ const courseSelector = document.getElementById('course-selector');
 const teeSelector = document.getElementById('tee-selector');
 const container = document.getElementById('course-container');
 
+// Core sequence: Populate Tee Dropdown -> Set active Tee -> Build Holes
 function updateTeeOptions() {
     const courseKey = courseSelector.value;
     const tees = Object.keys(courseData[courseKey].tees);
+    
+    // 1. Rebuild options
     teeSelector.innerHTML = tees.map(t => `<option value="${t}">${t.charAt(0).toUpperCase() + t.slice(1)}</option>`).join('');
     
+    // 2. Decide which tee should be active
     const savedTee = localStorage.getItem(`${courseKey}_tee`);
-    if (savedTee && tees.includes(savedTee)) teeSelector.value = savedTee;
-    else if (tees.includes('white')) teeSelector.value = 'white';
-    
+    if (savedTee && tees.includes(savedTee)) {
+        teeSelector.value = savedTee;
+    } else if (tees.includes('white')) {
+        teeSelector.value = 'white';
+    }
+
+    // 3. Build the UI
     initHoles();
 }
 
@@ -76,6 +84,8 @@ function initHoles() {
     const courseKey = courseSelector.value;
     const teeKey = teeSelector.value;
     const currentCourse = courseData[courseKey];
+
+    // Save state
     localStorage.setItem('lastCourse', courseKey);
     localStorage.setItem(`${courseKey}_tee`, teeKey);
 
@@ -117,13 +127,16 @@ function calculateDistances(holeNum) {
     const teeKey = teeSelector.value;
     const startYards = courseData[courseKey].tees[teeKey][holeNum - 1];
     const rows = document.getElementById(`shots-h${holeNum}`).querySelectorAll('.shot-row');
+    
     rows.forEach((row, index) => {
         const currentLeft = parseInt(row.querySelector('.left-input').value);
         const distDisplay = row.querySelector('.dist-calc');
         if (!isNaN(currentLeft)) {
             const base = (index === 0) ? startYards : parseInt(rows[index - 1].querySelector('.left-input').value);
             distDisplay.innerText = !isNaN(base) ? (base - currentLeft) : "--";
-        } else { distDisplay.innerText = "--"; }
+        } else { 
+            distDisplay.innerText = "--"; 
+        }
     });
 }
 
@@ -157,6 +170,7 @@ function loadData(holeNum) {
     }
 }
 
+// Event Listeners
 courseSelector.addEventListener('change', updateTeeOptions);
 teeSelector.addEventListener('change', initHoles);
 
@@ -182,11 +196,13 @@ document.getElementById('export-btn').addEventListener('click', () => {
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url; a.download = `${courseKey}_${new Date().toLocaleDateString()}.csv`;
+    a.href = url; a.download = `${courseKey}_${new Date().toLocaleDateString().replace(/\//g, '-')}.csv`;
     a.click();
 });
 
-// Load last used course or default
+// Load last used state
 const lastCourse = localStorage.getItem('lastCourse');
-if (lastCourse) courseSelector.value = lastCourse;
+if (lastCourse && courseData[lastCourse]) {
+    courseSelector.value = lastCourse;
+}
 updateTeeOptions();
